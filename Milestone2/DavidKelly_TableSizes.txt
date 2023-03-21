@@ -1,0 +1,11 @@
+select count(*) from business;  		--11,481
+select count(*) from Attribute;  		--81
+select count(*) from businessAttribute; 	--227,536
+select count(*) from category;  		--226
+select count(*) from businessCategory;  	--33,619
+select count(*) from businessCheckin;  	--481,360
+select count(*) from review; 			--416479
+select count(*) from businessReview;  	--416,465
+select count(*) from users; 			--192993
+select count(*) from userFriends; 		--1,052,652
+select count(*) from postalCode; 		--32,630

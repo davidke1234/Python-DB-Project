@@ -1,0 +1,8 @@
+CHECKIN - good
+business_id guid FK
+dayofweek varchar(10)
+hour varchar(5)
+count smallint
+
+
+ 

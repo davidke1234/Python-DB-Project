@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+yelp*.*
+Backups/
 __pycache__/
 *.py[cod]
 *$py.class

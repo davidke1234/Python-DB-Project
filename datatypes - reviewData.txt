@@ -1,0 +1,10 @@
+REVIEW - good
+review_id guid PK
+user_id guid FK
+business_id guid FK
+stars smallint
+date varchar(10)
+text varchar(1200)
+useful smallint
+funny smallint
+cool smallint

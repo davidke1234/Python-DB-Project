@@ -1,0 +1,16 @@
+USERS - good
+user_id guid PK
+name varchar(30)
+yelping_since varchar(10)
+review_count int 
+fans smallint
+average_stars decimal(4,2)
+funny int
+useful int
+cool int
+
+FRIENDS
+id int PK
+user_id guid  FK
+friend_id guid  FK
+

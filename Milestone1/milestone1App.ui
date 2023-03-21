@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1278</width>
+    <height>1017</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QToolBox" name="toolBox">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>30</y>
+      <width>1101</width>
+      <height>461</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;Lucida Sans&quot;;
+border-color: rgb(0, 0, 0);</string>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="page">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1101</width>
+       <height>395</height>
+      </rect>
+     </property>
+     <attribute name="label">
+      <string>Milestone 1 - Page 1</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>431</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(181, 206, 227);</string>
+      </property>
+      <property name="title">
+       <string>State / City</string>
+      </property>
+      <widget class="QComboBox" name="stateList">
+       <property name="geometry">
+        <rect>
+         <x>119</x>
+         <y>30</y>
+         <width>281</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;Lucida Sans&quot;;</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>40</y>
+         <width>47</width>
+         <height>14</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>State</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>90</y>
+         <width>47</width>
+         <height>14</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>City</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="cityList">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>70</y>
+         <width>281</width>
+         <height>281</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;Lucida Sans&quot;;</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="businessGroup">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>0</y>
+        <width>661</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(181, 206, 227);</string>
+      </property>
+      <property name="title">
+       <string>Businesses</string>
+      </property>
+      <widget class="QTableWidget" name="businessTable">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>641</width>
+         <height>351</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+font: 10pt &quot;Lucida Sans&quot;;</string>
+       </property>
+       <attribute name="horizontalHeaderCascadingSectionResizes">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>1101</width>
+       <height>395</height>
+      </rect>
+     </property>
+     <attribute name="label">
+      <string>Milestone 2 - Page 2</string>
+     </attribute>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>1091</width>
+        <height>521</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Search Business by Name</string>
+      </property>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>50</y>
+         <width>181</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Enter Businss Name:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>270</y>
+         <width>181</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>City For Business</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="bname">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>40</y>
+         <width>371</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="bcity">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>260</y>
+         <width>371</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="businesses">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>80</y>
+         <width>371</width>
+         <height>161</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1278</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMilestone1_page_1">
+    <property name="title">
+     <string>Milestone1 page 1</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuMilestone2_Page_2">
+    <property name="title">
+     <string>Milestone2-Page 2</string>
+    </property>
+   </widget>
+   <addaction name="menuMilestone1_page_1"/>
+   <addaction name="menuMilestone2_Page_2"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
