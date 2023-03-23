@@ -3,7 +3,7 @@ import sys
 import psycopg2
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QAction, QTableWidget, QTableWidgetItem, QVBoxLayout, \
-    QTableView
+    QTableView, QPushButton
 from PyQt5 import uic, QtCore
 from PyQt5.QtGui import QIcon, QPixmap, QStandardItemModel
 
@@ -20,8 +20,13 @@ class milestone1(QMainWindow):
         self.ui.stateList.currentTextChanged.connect(self.stateChanged)
         self.ui.cityList.itemSelectionChanged.connect(self.cityChanged)
         self.ui.zipcodeList.itemSelectionChanged.connect(self.zipcodeChanged)
-        #self.ui.bname.textChanged.connect(self.getBusinessNames)
-        #self.ui.businesses.itemSelectionChanged.connect(self.displayBusinessCity)
+
+        #searchButton = QPushButton("Press Me!")
+        #searchButton.setCheckable(True)
+        self.ui.searchButton.clicked.connect(self.the_button_was_clicked)
+
+    def the_button_was_clicked(self):
+        print("Clicked!")
 
     def executeQuery(self, sql):
         try:
@@ -130,37 +135,7 @@ class milestone1(QMainWindow):
             self.ui.businessTable.clear()
             self.ui.categoryList.clear()
 
-            sql = "SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins " \
-                  "from business WHERE State = '" + state + "' and city = '" + city \
-                  + "' and postalCode = '" + zipcode \
-                  + "' ORDER BY name;"
-            print(sql)
-
-            try:
-                results = self.executeQuery(sql)
-                style = "::section {""background-color: #f3f3f3; height:50px; }"
-                self.ui.businessTable.horizontalHeader().setStyleSheet(style)
-                self.ui.businessTable.setColumnCount(len(results[0]))
-                self.ui.businessTable.setRowCount(len(results))
-                self.ui.businessTable.setHorizontalHeaderLabels(['Business Name', 'Address', 'City', 'Stars',
-                                                                 'Review Count', 'Review Rating', '# of Checkins'])
-                self.ui.businessTable.resizeColumnsToContents()
-                self.ui.businessTable.setColumnWidth(0, 240)
-                self.ui.businessTable.setColumnWidth(1, 150)
-                self.ui.businessTable.setColumnWidth(2, 100)
-                self.ui.businessTable.setColumnWidth(3, 50)
-                self.ui.businessTable.setColumnWidth(4, 80)
-                self.ui.businessTable.setColumnWidth(5, 80)
-                self.ui.businessTable.setColumnWidth(6, 80)
-
-                currentRowCount = 0
-                for row in results:
-                    for colCount in range(0, len(results[0])):
-                        self.ui.businessTable.setItem(currentRowCount, colCount, QTableWidgetItem(str(row[colCount])))
-                    currentRowCount += 1
-
-            except Exception as e:
-                print(e)
+            self.getBusinessData()
 
             # Get numBusinesses
 
@@ -250,6 +225,44 @@ class milestone1(QMainWindow):
                 print("Query failed for getting CategoryList")
                 print(e)
 
+    def getBusinessData(self):
+        if (self.ui.stateList.currentIndex() >= 0) and (len(self.ui.cityList.selectedItems()) > 0) \
+                and (len(self.ui.zipcodeList.selectedItems()) > 0):
+            state = self.ui.stateList.currentText()
+            city = self.ui.cityList.selectedItems()[0].text()
+            zipcode = self.ui.zipcodeList.selectedItems()[0].text()
+
+            sql = "SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins " \
+                  "from business WHERE State = '" + state + "' and city = '" + city \
+                  + "' and postalCode = '" + zipcode \
+                  + "' ORDER BY name;"
+            print(sql)
+
+            try:
+                results = self.executeQuery(sql)
+                style = "::section {""background-color: #f3f3f3; height:50px; }"
+                self.ui.businessTable.horizontalHeader().setStyleSheet(style)
+                self.ui.businessTable.setColumnCount(len(results[0]))
+                self.ui.businessTable.setRowCount(len(results))
+                self.ui.businessTable.setHorizontalHeaderLabels(['Business Name', 'Address', 'City', 'Stars',
+                                                                 'Review Count', 'Review Rating', '# of Checkins'])
+                self.ui.businessTable.resizeColumnsToContents()
+                self.ui.businessTable.setColumnWidth(0, 240)
+                self.ui.businessTable.setColumnWidth(1, 150)
+                self.ui.businessTable.setColumnWidth(2, 100)
+                self.ui.businessTable.setColumnWidth(3, 50)
+                self.ui.businessTable.setColumnWidth(4, 80)
+                self.ui.businessTable.setColumnWidth(5, 80)
+                self.ui.businessTable.setColumnWidth(6, 80)
+
+                currentRowCount = 0
+                for row in results:
+                    for colCount in range(0, len(results[0])):
+                        self.ui.businessTable.setItem(currentRowCount, colCount, QTableWidgetItem(str(row[colCount])))
+                    currentRowCount += 1
+
+            except Exception as e:
+                print(e)
 
     # def getBusinessNames(self):
     #     self.ui.businesses.clear()
