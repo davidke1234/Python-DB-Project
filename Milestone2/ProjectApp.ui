@@ -469,7 +469,7 @@ font: 10pt &quot;Lucida Sans&quot;;</string>
         <string>Select Category</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="searchButton">
+      <widget class="QPushButton" name="busSearchButton">
        <property name="geometry">
         <rect>
          <x>210</x>

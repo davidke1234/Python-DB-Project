@@ -91,6 +91,26 @@ WHERE b.State = 'NC' and b.city = 'Gastonia' and b.postalCode = '28054'
 
 SELECT DISTINCT c.categoryName from category c JOIN BusinessCategory bc on bc.categoryId = c.categoryId JOIN business b on b.businessId = bc.businessId WHERE b.State = 'OH' and b.city = 'Bedford' and b.postalCode = '44146'
 
+SELECT distinct city from business WHERE State = 'PA' ORDER BY city;
+
+SELECT DISTINCT c.categoryName from category c 
+JOIN BusinessCategory bc on bc.categoryId = c.categoryId 
+JOIN business b on b.businessId = bc.businessId 
+WHERE b.State = 'NC' and b.city = 'Charlotte' and b.postalCode = '28203'
+
+SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins from business b
+JOIN BusinessCategory bc on bc.businessId = b.businessId
+join Category c on c.categoryId = bc.categoryId
+WHERE State = 'NC' and city = 'Charlotte' and postalCode = '28203' 
+AND c.categoryName = 'Food'
+ORDER BY name;
+
+SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins from business b
+JOIN BusinessCategory bc on bc.businessId = b.businessId  
+JOIN Category c on c.categoryId = bc.categoryId  and postalCode = '89014' 
+WHERE State = 'NV' and city = 'Henderson'
+AND c.categoryName = 'Bakeries' ORDER BY name;
+
 -----------------------------------------
 
 */

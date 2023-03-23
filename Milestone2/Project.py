@@ -20,13 +20,15 @@ class milestone1(QMainWindow):
         self.ui.stateList.currentTextChanged.connect(self.stateChanged)
         self.ui.cityList.itemSelectionChanged.connect(self.cityChanged)
         self.ui.zipcodeList.itemSelectionChanged.connect(self.zipcodeChanged)
+        self.ui.busSearchButton.clicked.connect(self.busSearchButtonClicked)
+        self.ui.clearButton.clicked.connect(self.clearButtonClicked)
 
-        #searchButton = QPushButton("Press Me!")
-        #searchButton.setCheckable(True)
-        self.ui.searchButton.clicked.connect(self.the_button_was_clicked)
+    def busSearchButtonClicked(self):
+        self.getBusinessData()
 
-    def the_button_was_clicked(self):
-        print("Clicked!")
+    def clearButtonClicked(self):
+        for i in reversed(range(self.ui.businessTable.rowCount())):
+            self.ui.businessTable.removeRow(i)
 
     def executeQuery(self, sql):
         try:
@@ -135,8 +137,6 @@ class milestone1(QMainWindow):
             self.ui.businessTable.clear()
             self.ui.categoryList.clear()
 
-            self.getBusinessData()
-
             # Get numBusinesses
 
             sql = "SELECT COUNT(*) " \
@@ -231,11 +231,17 @@ class milestone1(QMainWindow):
             state = self.ui.stateList.currentText()
             city = self.ui.cityList.selectedItems()[0].text()
             zipcode = self.ui.zipcodeList.selectedItems()[0].text()
+            categoryname = self.ui.categoryList.selectedItems()[0].text()
 
             sql = "SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins " \
-                  "from business WHERE State = '" + state + "' and city = '" + city \
-                  + "' and postalCode = '" + zipcode \
-                  + "' ORDER BY name;"
+                  " FROM business b " \
+                  " JOIN BusinessCategory bc on bc.businessId = b.businessId " \
+                  " JOIN Category c on c.categoryId = bc.categoryId " \
+                  " WHERE State = '" + state + "' and city = '" + city + "'" \
+                  " AND postalCode = '" + zipcode + "'" \
+                  " AND c.categoryName = '" + categoryname + "'" \
+                  " ORDER BY name;"
+
             print(sql)
 
             try:
