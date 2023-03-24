@@ -71,14 +71,9 @@ class milestone1(QMainWindow):
         self.ui.stateList.clearEditText()
 
     def stateChanged(self):
-        print("in stateChanged")
-        print("clearing citylist")
         self.ui.cityList.clear()
-        print("getting state")
         state = self.ui.stateList.currentText()
-        print("clearing businesses")
         self.ui.businessTable.clear()
-        print("bus cleared")
         self.ui.zipcodeList.clear()
 
         if self.ui.stateList.currentIndex() >= 0:
@@ -95,9 +90,6 @@ class milestone1(QMainWindow):
 
             for i in reversed(range(self.ui.businessTable.rowCount())):
                 self.ui.businessTable.removeRow(i)
-
-
-
 
     def cityChanged(self):
         print("in city changed")
@@ -124,7 +116,6 @@ class milestone1(QMainWindow):
                 self.ui.businessTable.removeRow(i)
 
     def zipcodeChanged(self):
-        # TODO: onclick, get bus
         if (self.ui.stateList.currentIndex() >= 0) and (len(self.ui.cityList.selectedItems()) > 0) \
                 and (len(self.ui.zipcodeList.selectedItems()) > 0):
             state = self.ui.stateList.currentText()
@@ -138,7 +129,6 @@ class milestone1(QMainWindow):
             self.ui.categoryList.clear()
 
             # Get numBusinesses
-
             sql = "SELECT COUNT(*) " \
                   "from business WHERE State = '" + state + "' and city = '" + city \
                   + "' and postalCode = '" + zipcode + "'"
@@ -231,7 +221,10 @@ class milestone1(QMainWindow):
             state = self.ui.stateList.currentText()
             city = self.ui.cityList.selectedItems()[0].text()
             zipcode = self.ui.zipcodeList.selectedItems()[0].text()
-            categoryname = self.ui.categoryList.selectedItems()[0].text()
+            categoryname = ""
+
+            if (len(self.ui.categoryList.selectedItems()) > 0) :
+                categoryname = self.ui.categoryList.selectedItems()[0].text()
 
             sql = "SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins " \
                   " FROM business b " \
@@ -239,8 +232,11 @@ class milestone1(QMainWindow):
                   " JOIN Category c on c.categoryId = bc.categoryId " \
                   " WHERE State = '" + state + "' and city = '" + city + "'" \
                   " AND postalCode = '" + zipcode + "'" \
-                  " AND c.categoryName = '" + categoryname + "'" \
-                  " ORDER BY name;"
+
+            if categoryname != "":
+                sql += " AND c.categoryName = '" + categoryname + "'"
+
+                sql += " ORDER BY name;"
 
             print(sql)
 
@@ -253,13 +249,13 @@ class milestone1(QMainWindow):
                 self.ui.businessTable.setHorizontalHeaderLabels(['Business Name', 'Address', 'City', 'Stars',
                                                                  'Review Count', 'Review Rating', '# of Checkins'])
                 self.ui.businessTable.resizeColumnsToContents()
-                self.ui.businessTable.setColumnWidth(0, 240)
+                self.ui.businessTable.setColumnWidth(0, 220)
                 self.ui.businessTable.setColumnWidth(1, 150)
                 self.ui.businessTable.setColumnWidth(2, 100)
                 self.ui.businessTable.setColumnWidth(3, 50)
                 self.ui.businessTable.setColumnWidth(4, 80)
                 self.ui.businessTable.setColumnWidth(5, 80)
-                self.ui.businessTable.setColumnWidth(6, 80)
+                self.ui.businessTable.setColumnWidth(6, 60)
 
                 currentRowCount = 0
                 for row in results:
@@ -269,34 +265,6 @@ class milestone1(QMainWindow):
 
             except Exception as e:
                 print(e)
-
-    # def getBusinessNames(self):
-    #     self.ui.businesses.clear()
-    #     businessname = self.ui.bname.text()
-    #     sql = "SELECT name FROM  business  WHERE name LIKE '%" + businessname + "%' ORDER BY name"
-    #
-    #     print(sql)
-    #     try:
-    #         results = self.executeQuery(sql)
-    #         for row in results:
-    #             self.ui.businesses.addItem(row[0])
-    #
-    #     except:
-    #          print("Query failed for getting bus")
-    #
-    #
-    # def displayBusinessCity(self):
-    #     businessname = self.ui.businesses.selectedItems()[0].text()
-    #     newBusName = businessname.replace("'", "''")
-    #     sql = "SELECT city FROM  business  WHERE name = '" + newBusName + "'"
-    #     #sql = "SELECT " + strCity + strFromBusiness + " WHERE " + strName + " = '" + newBusName + "'"
-    #     print(sql)
-    #     try:
-    #         results = self.executeQuery(sql)
-    #         self.ui.bcity.setText(results[0][0])
-    #
-    #     except:
-    #         print("Query failed for getting bus")
 
 
 if __name__ == "__main__":
