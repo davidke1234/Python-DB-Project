@@ -100,7 +100,22 @@ CREATE TABLE PostalCode (
 	PRIMARY KEY (PostalCode)
 );
 
-
-
-
-
+CREATE INDEX IF NOT EXISTS pk_businessid
+    ON public.business USING btree
+    (businessid COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+	
+CREATE INDEX IF NOT EXISTS ix_businessid_categoryid
+    ON public.businesscategory USING btree
+    (categoryid ASC NULLS LAST, businessid COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+	
+CREATE INDEX IF NOT EXISTS ix_businessid_reviewid
+    ON public.businessreview USING btree
+    (reviewid COLLATE pg_catalog."default" ASC NULLS LAST, businessid COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
+	
+CREATE INDEX IF NOT EXISTS pk_reviewid
+    ON public.review USING btree
+    (reviewid COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;

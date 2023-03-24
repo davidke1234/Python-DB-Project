@@ -1,0 +1,116 @@
+/*
+drop table if exists BusinessCategory Cascade;
+drop table if exists BusinessAttribute Cascade;
+drop table if exists BusinessCheckin Cascade;
+drop table if exists BusinessReview Cascade;
+drop table if exists business cascade;
+drop table if exists UserFriends Cascade;
+drop table if exists review;
+drop table if exists friends;
+drop table if exists checkin;
+drop table if exists users;
+drop table if exists category;
+--drop table if exists hours;
+drop table if exists attribute;
+
+*/
+--drop table if exists PostalCodeData;
+--select * from postalCode
+--select * from Business
+--SELECT DISTINCT state FROM  business  ORDER BY state
+/*
+
+delete from businessAttribute;
+delete from businessCheckin;
+delete from checkin;
+delete from businessCategory;
+delete from Business;
+delete from Category;
+delete from Attribute;
+delete from review
+delete from users
+delete from userFriends
+
+
+select * from business;
+select * from category;
+select * from Attribute 
+select * from businessAttribute;
+select * from businessCategory;
+select * from businessReview;
+select * from Review;
+
+
+select count(*) from Attribute;  --81
+select count(*) from businessAttribute;  --227536
+select count(*) from category;  --226
+select count(*) from businessCategory;  --33619
+select count(*) from business;  --11481
+select count(*) from checkin;
+select count(*) from businessCheckin;  --481360
+select count(*) from review; --416479
+select count(*) from businessReview;  --416465
+select count(*) from users; --192993
+select count(*) from userFriends; --1052652
+select count(*) from postalCode; --32630
+
+select * from businessCategory
+"duHFBe87uNSXImQmvBh87Q"	47921
+"duHFBe87uNSXImQmvBh87Q"	47922
+
+select * from category
+select * from attribute
+
+INSERT INTO Attribute (AttributeName) 
+SELECT 'GoodForKids2'
+WHERE NOT EXISTS (SELECT AttributeId FROM Attribute WHERE attributeName = 'GoodForKids2')
+    
+select * from businessAttribute ba
+join attribute a on a.attributeId = ba.attributeId 
+
+INSERT INTO businessAttribute (businessId, AttributeId, AttributeValue) 
+VALUES('duHFBe87uNSXImQmvBh87Q',1, 'True')
+
+INSERT INTO Users (userid, name, yelpingsince, reviewcount, fans, averagestars, funny, useful, cool) VALUES ('hUpyi7pmfoh4900GYON5vw','Kt','2015-07-13',3,0,3.67,1,0)
+
+INSERT INTO UserFriends (UserId, FriendId) VALUES('fmww-Gf2LnYfL40eezDDEA','jAsODpZJyieaO29JtmkGlA')
+
+select * from  businessReview
+where businessid = 'Ccf2KBKnNc8lWB4sOZRo7g'
+
+select * from  business
+where businessid = 'YcGHCoSkl2PLKsHQCiu0HA'
+
+select * from businessCheckin where businessId = 'pE0ktQsw5x0chqsoMSqCUQ'
+select * from checkin
+
+SELECT distinct c.categoryName from category c
+join BusinessCategory bc on bc.categoryId = c.categoryId
+join business b on b.businessId = bc.businessId
+WHERE b.State = 'NC' and b.city = 'Gastonia' and b.postalCode = '28054' 
+
+SELECT DISTINCT c.categoryName from category c JOIN BusinessCategory bc on bc.categoryId = c.categoryId JOIN business b on b.businessId = bc.businessId WHERE b.State = 'OH' and b.city = 'Bedford' and b.postalCode = '44146'
+
+SELECT distinct city from business WHERE State = 'PA' ORDER BY city;
+
+SELECT DISTINCT c.categoryName from category c 
+JOIN BusinessCategory bc on bc.categoryId = c.categoryId 
+JOIN business b on b.businessId = bc.businessId 
+WHERE b.State = 'NC' and b.city = 'Charlotte' and b.postalCode = '28203'
+
+SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins from business b
+JOIN BusinessCategory bc on bc.businessId = b.businessId
+join Category c on c.categoryId = bc.categoryId
+WHERE State = 'NC' and city = 'Charlotte' and postalCode = '28203' 
+AND c.categoryName = 'Food'
+ORDER BY name;
+
+SELECT DISTINCT name, address, city, stars, reviewCount, ReviewRating, numCheckins from business b
+JOIN BusinessCategory bc on bc.businessId = b.businessId  
+JOIN Category c on c.categoryId = bc.categoryId  and postalCode = '89014' 
+WHERE State = 'NV' and city = 'Henderson'
+AND c.categoryName = 'Bakeries' ORDER BY name;
+
+-----------------------------------------
+
+*/
