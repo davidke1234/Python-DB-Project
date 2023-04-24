@@ -11,9 +11,9 @@ qtCreatorFile = "ProjectApp.ui" # Enter file here.
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-class milestone1(QMainWindow):
+class milestone3(QMainWindow):
     def __init__(self):
-        super(milestone1, self).__init__()
+        super(milestone3, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.loadStateList()
@@ -22,6 +22,8 @@ class milestone1(QMainWindow):
         self.ui.zipcodeList.itemSelectionChanged.connect(self.zipcodeChanged)
         self.ui.busSearchButton.clicked.connect(self.busSearchButtonClicked)
         self.ui.clearButton.clicked.connect(self.clearButtonClicked)
+        self.ui.refreshButtonForPopularOrSuccessfulBusinesses.clicked.connect(
+            self.refreshButtonForPopularOrSuccessfulBusinessesClicked)
 
     def busSearchButtonClicked(self):
         self.getBusinessData()
@@ -29,6 +31,18 @@ class milestone1(QMainWindow):
     def clearButtonClicked(self):
         for i in reversed(range(self.ui.businessTable.rowCount())):
             self.ui.businessTable.removeRow(i)
+
+        self.ui.categoryList.clear()
+        self.getCategoryList()
+
+    def refreshButtonForPopularOrSuccessfulBusinessesClicked(self):
+        for i in reversed(range(self.ui.popularBusinessTable.rowCount())):
+            self.ui.popularBusinessTable.removeRow(i)
+        for i in reversed(range(self.ui.successfulBusinessTable.rowCount())):
+            self.ui.successfulBusinessTable.removeRow(i)
+
+        self.getPopularBusinessData()
+        self.getSuccessfulBusinessData()
 
     def executeQuery(self, sql):
         try:
@@ -127,6 +141,7 @@ class milestone1(QMainWindow):
             self.ui.topCategoriesList.clear()
             self.ui.businessTable.clear()
             self.ui.categoryList.clear()
+            self.ui.successfulBusinessTable.clear()
 
             # Get numBusinesses
             sql = "SELECT COUNT(*) " \
@@ -197,23 +212,32 @@ class milestone1(QMainWindow):
             except Exception as e:
                 print(e)
 
-            # Get categories list
-            sql = "SELECT DISTINCT c.categoryName from category c " \
-                  "JOIN BusinessCategory bc on bc.categoryId = c.categoryId " \
-                  "JOIN business b on b.businessId = bc.businessId " \
-                  "WHERE b.State = '" + state + "' and b.city = '" + city \
-                  + "' and b.postalCode = '" + zipcode + "'"
+            self.getCategoryList()
 
-            print(sql)
 
-            try:
-                results = self.executeQuery(sql)
-                for row in results:
-                    self.ui.categoryList.addItem(row[0])
-                print(results)
-            except:
-                print("Query failed for getting CategoryList")
-                print(e)
+    def getCategoryList(self):
+        # Get category list
+        state = self.ui.stateList.currentText()
+        city = self.ui.cityList.selectedItems()[0].text()
+        zipcode = self.ui.zipcodeList.selectedItems()[0].text()
+
+        sql = "SELECT DISTINCT c.categoryName from category c " \
+              "JOIN BusinessCategory bc on bc.categoryId = c.categoryId " \
+              "JOIN business b on b.businessId = bc.businessId " \
+              "WHERE b.State = '" + state + "' and b.city = '" + city \
+              + "' and b.postalCode = '" + zipcode + "'"
+
+        print(sql)
+
+        try:
+            results = self.executeQuery(sql)
+            for row in results:
+                self.ui.categoryList.addItem(row[0])
+            print(results)
+
+        except Exception as e:
+            print("Query failed for getting CategoryList")
+            print(e)
 
     def getBusinessData(self):
         if (self.ui.stateList.currentIndex() >= 0) and (len(self.ui.cityList.selectedItems()) > 0) \
@@ -266,9 +290,88 @@ class milestone1(QMainWindow):
             except Exception as e:
                 print(e)
 
+    def getPopularBusinessData(self):
+        state = self.ui.stateList.currentText()
+        city = self.ui.cityList.selectedItems()[0].text()
+        zipcode = self.ui.zipcodeList.selectedItems()[0].text()
+
+        sql = "select distinct b.name, reviewCount, numcheckins, b.stars " \
+              " from review r" \
+              " join businessReview br on br.reviewId = r.reviewId" \
+              " join business b on b.businessId = br.businessId " \
+              " where (text like '%choices%' or text like '%new items%')" \
+              " AND b.State = '" + state + "' and b.city = '" + city \
+              + "' and b.postalCode = '" + zipcode + "'" \
+              + " Order by reviewCount desc"
+
+        print(sql)
+
+        try:
+            results = self.executeQuery(sql)
+            style = "::section {""background-color: #f3f3f3; height:50px; }"
+            self.ui.popularBusinessTable.horizontalHeader().setStyleSheet(style)
+            self.ui.popularBusinessTable.setColumnCount(len(results[0]))
+            self.ui.popularBusinessTable.setRowCount(len(results))
+            self.ui.successfulBusinessTable.setHorizontalHeaderLabels( \
+                ['Business Name', '# of Reviews', '# of Checkins', 'Stars'])
+            self.ui.popularBusinessTable.resizeColumnsToContents()
+            self.ui.popularBusinessTable.setColumnWidth(0, 250)
+            self.ui.popularBusinessTable.setColumnWidth(1, 100)
+            self.ui.popularBusinessTable.setColumnWidth(2, 80)
+            self.ui.popularBusinessTable.setColumnWidth(3, 80)
+
+            currentRowCount = 0
+            for row in results:
+                for colCount in range(0, len(results[0])):
+                    self.ui.popularBusinessTable.setItem(currentRowCount, colCount, QTableWidgetItem(str(row[colCount])))
+                currentRowCount += 1
+
+        except Exception as e:
+            print(e)
+
+    def getSuccessfulBusinessData(self):
+        state = self.ui.stateList.currentText()
+        city = self.ui.cityList.selectedItems()[0].text()
+        zipcode = self.ui.zipcodeList.selectedItems()[0].text()
+
+        sql = "select distinct b.name, reviewCount, numCheckins, b.stars " \
+              " from review r" \
+              " join businessReview br on br.reviewId = r.reviewId" \
+              " join business b on b.businessId = br.businessId " \
+              " where (text like '%choices%' or text like '%new items%')" \
+              " AND b.State = '" + state + "' and b.city = '" + city \
+              + "' and b.postalCode = '" + zipcode + "'" \
+              + " Order by numcheckins desc"
+
+        print(sql)
+
+        try:
+            results = self.executeQuery(sql)
+            style = "::section {""background-color: #f3f3f3; height:50px; }"
+            self.ui.successfulBusinessTable.horizontalHeader().setStyleSheet(style)
+            self.ui.successfulBusinessTable.setColumnCount(len(results[0]))
+            self.ui.successfulBusinessTable.setRowCount(len(results))
+            self.ui.successfulBusinessTable.setHorizontalHeaderLabels( \
+                ['Business Name', '# of Reviews', '# of Checkins', 'Stars'])
+            self.ui.successfulBusinessTable.resizeColumnsToContents()
+            self.ui.successfulBusinessTable.setColumnWidth(0, 250)
+            self.ui.successfulBusinessTable.setColumnWidth(1, 100)
+            self.ui.successfulBusinessTable.setColumnWidth(2, 80)
+            self.ui.successfulBusinessTable.setColumnWidth(3, 80)
+
+            currentRowCount = 0
+            for row in results:
+                for colCount in range(0, len(results[0])):
+                    self.ui.successfulBusinessTable.setItem(currentRowCount, colCount,
+                                                         QTableWidgetItem(str(row[colCount])))
+                currentRowCount += 1
+
+        except Exception as e:
+            print(e)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = milestone1()
+    window = milestone3()
     window.show()
     sys.exit(app.exec_())

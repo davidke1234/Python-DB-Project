@@ -592,7 +592,7 @@ font: 10pt &quot;Lucida Sans&quot;;</string>
       <bool>false</bool>
      </attribute>
     </widget>
-    <widget class="QCommandLinkButton" name="commandLinkButton">
+    <widget class="QCommandLinkButton" name="refreshButtonForPopularOrSuccessfulBusinesses">
      <property name="geometry">
       <rect>
        <x>20</x>
