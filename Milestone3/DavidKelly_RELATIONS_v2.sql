@@ -1,3 +1,35 @@
+/**** Successful ****/
+select b.name, reviewCount, numcheckins  from review r join businessReview br on br.reviewId = r.reviewId join business b on b.businessId = br.businessId  where (text like '%choices%' or text like '%new items%') AND b.State = 'OH' and b.city = 'Cleveland' and b.postalCode = '44113'
+
+select * from category c
+where c.categoryName = 'Beauty & Spas' 
+
+select distinct b.name, reviewCount, numcheckins, b.stars  from review r join businessReview br on br.reviewId = r.reviewId join business b on b.businessId = br.businessId  where (text like '%choices%' or text like '%new items%') AND b.State = 'OH' and b.city = 'Cleveland' and b.postalCode = '44111' Order by numcheckins desc
+
+
+
+select *, b.name, reviewCount, numCheckins -- r.text --into choices5
+from review r
+join businessReview br on br.reviewId = r.reviewId
+join business b on b.businessId = br.businessId
+where (text like '%choices%' or text like '%new items%')
+AND b.State = 'OH' and b.city = 'Westlake' and b.postalCode = '44145'
+
+select * from choices
+
+select b.*, r.text into new
+from review r
+join businessReview br on br.reviewId = r.reviewId
+join business b on b.businessId = br.businessId
+where text like '%new items%'
+/********************************************************/
+
+/**** Popular ****/
+For example, South west airlines are a popular airline.  
+The numCheckins are 12183, the highest in Yelp.  
+The review rating is 3.4.  
+
+/********************************************************/
 
 CREATE TABLE Business (
 	BusinessId char(22), 

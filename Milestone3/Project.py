@@ -277,9 +277,9 @@ class milestone3(QMainWindow):
                 self.ui.businessTable.setColumnWidth(1, 150)
                 self.ui.businessTable.setColumnWidth(2, 100)
                 self.ui.businessTable.setColumnWidth(3, 50)
-                self.ui.businessTable.setColumnWidth(4, 80)
-                self.ui.businessTable.setColumnWidth(5, 80)
-                self.ui.businessTable.setColumnWidth(6, 60)
+                self.ui.businessTable.setColumnWidth(4, 100)
+                self.ui.businessTable.setColumnWidth(5, 100)
+                self.ui.businessTable.setColumnWidth(6, 20)
 
                 currentRowCount = 0
                 for row in results:
@@ -294,15 +294,28 @@ class milestone3(QMainWindow):
         state = self.ui.stateList.currentText()
         city = self.ui.cityList.selectedItems()[0].text()
         zipcode = self.ui.zipcodeList.selectedItems()[0].text()
+        categoryname=""
+
+        if (len(self.ui.categoryList.selectedItems()) > 0):
+            categoryname = self.ui.categoryList.selectedItems()[0].text()
 
         sql = "select distinct b.name, reviewCount, numcheckins, b.stars " \
               " from review r" \
               " join businessReview br on br.reviewId = r.reviewId" \
               " join business b on b.businessId = br.businessId " \
-              " where (text like '%choices%' or text like '%new items%')" \
-              " AND b.State = '" + state + "' and b.city = '" + city \
-              + "' and b.postalCode = '" + zipcode + "'" \
-              + " Order by reviewCount desc"
+
+        if categoryname != "":
+            sql += " join BusinessCategory bc on bc.businessId = b.businessId " \
+                " join Category c on c.categoryId = bc.categoryId " \
+
+        sql += " where (text like '%choices%' or text like '%new items%')" \
+            " AND b.State = '" + state + "' and b.city = '" + city \
+            + "' and b.postalCode = '" + zipcode + "'" \
+
+        if categoryname != "":
+            sql += " AND c.categoryName = '" + categoryname + "'"
+
+        sql += " Order by reviewCount desc"
 
         print(sql)
 
@@ -312,13 +325,13 @@ class milestone3(QMainWindow):
             self.ui.popularBusinessTable.horizontalHeader().setStyleSheet(style)
             self.ui.popularBusinessTable.setColumnCount(len(results[0]))
             self.ui.popularBusinessTable.setRowCount(len(results))
-            self.ui.successfulBusinessTable.setHorizontalHeaderLabels( \
-                ['Business Name', '# of Reviews', '# of Checkins', 'Stars'])
+            self.ui.popularBusinessTable.setHorizontalHeaderLabels(['Business Name', '# of Reviews', '# of Checkins',\
+                                                                    'Stars'])
             self.ui.popularBusinessTable.resizeColumnsToContents()
-            self.ui.popularBusinessTable.setColumnWidth(0, 250)
+            self.ui.popularBusinessTable.setColumnWidth(0, 200)
             self.ui.popularBusinessTable.setColumnWidth(1, 100)
-            self.ui.popularBusinessTable.setColumnWidth(2, 80)
-            self.ui.popularBusinessTable.setColumnWidth(3, 80)
+            self.ui.popularBusinessTable.setColumnWidth(2, 100)
+            self.ui.popularBusinessTable.setColumnWidth(3, 20)
 
             currentRowCount = 0
             for row in results:
@@ -333,15 +346,40 @@ class milestone3(QMainWindow):
         state = self.ui.stateList.currentText()
         city = self.ui.cityList.selectedItems()[0].text()
         zipcode = self.ui.zipcodeList.selectedItems()[0].text()
+        categoryname=""
 
-        sql = "select distinct b.name, reviewCount, numCheckins, b.stars " \
+        if (len(self.ui.categoryList.selectedItems()) > 0):
+            categoryname = self.ui.categoryList.selectedItems()[0].text()
+
+        sql = "select distinct b.name, reviewCount, numcheckins, b.stars " \
               " from review r" \
               " join businessReview br on br.reviewId = r.reviewId" \
               " join business b on b.businessId = br.businessId " \
-              " where (text like '%choices%' or text like '%new items%')" \
-              " AND b.State = '" + state + "' and b.city = '" + city \
-              + "' and b.postalCode = '" + zipcode + "'" \
-              + " Order by numcheckins desc"
+
+        if categoryname != "":
+            sql += " join BusinessCategory bc on bc.businessId = b.businessId " \
+                   " join Category c on c.categoryId = bc.categoryId " \
+
+        sql += " where (text like '%choices%' or text like '%new items%')" \
+               " AND b.State = '" + state + "' and b.city = '" + city \
+               + "' and b.postalCode = '" + zipcode + "'" \
+
+        if categoryname != "":
+            sql += " AND c.categoryName = '" + categoryname + "'"
+
+        sql += " Order by numcheckins desc"
+
+        # sql = "select distinct b.name, reviewCount, numCheckins, b.stars " \
+        #       " from review r" \
+        #       " join businessReview br on br.reviewId = r.reviewId" \
+        #       " join business b on b.businessId = br.businessId " \
+        #       " join BusinessCategory bc on bc.businessId = b.businessId " \
+        #       " join Category c on c.categoryId = bc.categoryId " \
+        #       " where (text like '%choices%' or text like '%new items%')" \
+        #       " AND b.State = '" + state + "' and b.city = '" + city \
+        #       + "' and b.postalCode = '" + zipcode + "'" \
+
+
 
         print(sql)
 
@@ -351,13 +389,13 @@ class milestone3(QMainWindow):
             self.ui.successfulBusinessTable.horizontalHeader().setStyleSheet(style)
             self.ui.successfulBusinessTable.setColumnCount(len(results[0]))
             self.ui.successfulBusinessTable.setRowCount(len(results))
-            self.ui.successfulBusinessTable.setHorizontalHeaderLabels( \
+            self.ui.successfulBusinessTable.setHorizontalHeaderLabels(\
                 ['Business Name', '# of Reviews', '# of Checkins', 'Stars'])
             self.ui.successfulBusinessTable.resizeColumnsToContents()
-            self.ui.successfulBusinessTable.setColumnWidth(0, 250)
+            self.ui.successfulBusinessTable.setColumnWidth(0, 200)
             self.ui.successfulBusinessTable.setColumnWidth(1, 100)
-            self.ui.successfulBusinessTable.setColumnWidth(2, 80)
-            self.ui.successfulBusinessTable.setColumnWidth(3, 80)
+            self.ui.successfulBusinessTable.setColumnWidth(2, 100)
+            self.ui.successfulBusinessTable.setColumnWidth(3, 20)
 
             currentRowCount = 0
             for row in results:
